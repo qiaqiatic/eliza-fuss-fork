@@ -673,23 +673,23 @@ export class TwitterInteractionClient {
                 elizaLogger.info("latest message", messages[latestMsgIdx]);
                 if (messages[latestMsgIdx].senderId != userId) {
                     try {
-                        const response = await generateMessageResponse({
-                            runtime: this.runtime,
-                            context: messages[latestMsgIdx].text,
-                            modelClass: ModelClass.LARGE,
-                        });
-                        elizaLogger.log("message to send out", response.text);
-                        var sendDMResult = await this.client.twitterClient.sendDirectMessage(
-                            conversationId,
-                            response.text
-                        );
-                        elizaLogger.log("message sent result", sendDMResult);
-                        
+                        // const response = await generateMessageResponse({
+                        //     runtime: this.runtime,
+                        //     context: messages[latestMsgIdx].text,
+                        //     modelClass: ModelClass.LARGE,
+                        // });
+                        // elizaLogger.log("message to send out", response.text);
                         // var sendDMResult = await this.client.twitterClient.sendDirectMessage(
                         //     conversationId,
-                        //     "i am copy cat: " + messages[latestMsgIdx].text
+                        //     response.text
                         // );
                         // elizaLogger.log("message sent result", sendDMResult);
+                        
+                        var sendDMResult = await this.client.twitterClient.sendDirectMessage(
+                            conversationId,
+                            "i am copy cat: " + messages[latestMsgIdx].text
+                        );
+                        elizaLogger.log("message sent result", sendDMResult);
                     } catch (error) {
                         elizaLogger.log("Error response twitter message:", {
                             conversationId,
