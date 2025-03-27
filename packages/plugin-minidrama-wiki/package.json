@@ -1,0 +1,19 @@
+{
+    "name": "@elizaos/plugin-minidrama-wiki",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "type": "module",
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "@elizaos/core": "workspace:*"
+    },
+    "agentConfig": {
+        "pluginType": "elizaos:plugin:1.0.0"
+    },
+    "scripts": {
+        "build": "tsup --format esm --dts"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": ""
+}

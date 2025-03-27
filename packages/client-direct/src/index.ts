@@ -128,11 +128,11 @@ export class DirectClient {
         // Serve both uploads and generated images
         this.app.use(
             "/media/uploads",
-            express.static(path.join(process.cwd(), "/data/uploads"))
+            express.static(path.join(process.cwd(), "/data/uploads")),
         );
         this.app.use(
             "/media/generated",
-            express.static(path.join(process.cwd(), "/generatedImages"))
+            express.static(path.join(process.cwd(), "/generatedImages")),
         );
 
         const apiRouter = createApiRouter(this.agents, this);
@@ -167,7 +167,7 @@ export class DirectClient {
                     runtime = Array.from(this.agents.values()).find(
                         (a) =>
                             a.character.name.toLowerCase() ===
-                            agentId.toLowerCase()
+                            agentId.toLowerCase(),
                     );
                 }
 
@@ -186,7 +186,7 @@ export class DirectClient {
                 });
 
                 res.json(transcription);
-            }
+            },
         );
 
         this.app.post(
@@ -195,7 +195,7 @@ export class DirectClient {
             async (req: express.Request, res: express.Response) => {
                 const agentId = req.params.agentId;
                 const roomId = stringToUuid(
-                    req.body.roomId ?? "default-room-" + agentId
+                    req.body.roomId ?? "default-room-" + agentId,
                 );
                 const userId = stringToUuid(req.body.userId ?? "user");
 
@@ -206,7 +206,7 @@ export class DirectClient {
                     runtime = Array.from(this.agents.values()).find(
                         (a) =>
                             a.character.name.toLowerCase() ===
-                            agentId.toLowerCase()
+                            agentId.toLowerCase(),
                     );
                 }
 
@@ -220,7 +220,7 @@ export class DirectClient {
                     roomId,
                     req.body.userName,
                     req.body.name,
-                    "direct"
+                    "direct",
                 );
 
                 const text = req.body.text;
@@ -238,7 +238,7 @@ export class DirectClient {
                         process.cwd(),
                         "data",
                         "uploads",
-                        req.file.filename
+                        req.file.filename,
                     );
                     attachments.push({
                         id: Date.now().toString(),
@@ -282,20 +282,20 @@ export class DirectClient {
                     agentName: runtime.character.name,
                 });
 
-                const context = composeContext({
-                    state,
-                    template: messageHandlerTemplate,
-                });
+                // const context = composeContext({
+                //     state,
+                //     template: messageHandlerTemplate,
+                // });
 
                 const response = await generateMessageResponse({
                     runtime: runtime,
-                    context,
+                    context: text,
                     modelClass: ModelClass.LARGE,
                 });
 
                 if (!response) {
                     res.status(500).send(
-                        "No response from generateMessageResponse"
+                        "No response from generateMessageResponse",
                     );
                     return;
                 }
@@ -323,14 +323,14 @@ export class DirectClient {
                     async (newMessages) => {
                         message = newMessages;
                         return [memory];
-                    }
+                    },
                 );
 
                 await runtime.evaluate(memory, state);
 
                 // Check if we should suppress the initial message
                 const action = runtime.actions.find(
-                    (a) => a.name === response.action
+                    (a) => a.name === response.action,
                 );
                 const shouldSuppressInitialMessage =
                     action?.suppressInitialMessage;
@@ -348,7 +348,7 @@ export class DirectClient {
                         res.json([]);
                     }
                 }
-            }
+            },
         );
 
         this.app.post(
@@ -362,7 +362,7 @@ export class DirectClient {
                     runtime = Array.from(this.agents.values()).find(
                         (a) =>
                             a.character.name.toLowerCase() ===
-                            agentId.toLowerCase()
+                            agentId.toLowerCase(),
                     );
                 }
                 if (!runtime) {
@@ -395,7 +395,7 @@ export class DirectClient {
                             roomId, // where
                             parts[0], // username
                             parts[0], // userScreeName?
-                            "hyperfi"
+                            "hyperfi",
                         );
                         const content: Content = {
                             text: parts[1] || "",
@@ -440,7 +440,7 @@ export class DirectClient {
                 let template = hyperfiHandlerTemplate;
                 template = template.replace(
                     "{{emotes}}",
-                    availableEmotes.join("|")
+                    availableEmotes.join("|"),
                 );
                 template = template.replace("{{nearby}}", nearby.join("|"));
                 const context = composeContext({
@@ -450,7 +450,7 @@ export class DirectClient {
 
                 function createHyperfiOutSchema(
                     nearby: string[],
-                    availableEmotes: string[]
+                    availableEmotes: string[],
                 ) {
                     const lookAtSchema =
                         nearby.length > 1
@@ -460,7 +460,7 @@ export class DirectClient {
                                           z.ZodLiteral<string>,
                                           z.ZodLiteral<string>,
                                           ...z.ZodLiteral<string>[],
-                                      ]
+                                      ],
                                   )
                                   .nullable()
                             : nearby.length === 1
@@ -472,12 +472,12 @@ export class DirectClient {
                             ? z
                                   .union(
                                       availableEmotes.map((item) =>
-                                          z.literal(item)
+                                          z.literal(item),
                                       ) as [
                                           z.ZodLiteral<string>,
                                           z.ZodLiteral<string>,
                                           ...z.ZodLiteral<string>[],
-                                      ]
+                                      ],
                                   )
                                   .nullable()
                             : availableEmotes.length === 1
@@ -495,7 +495,7 @@ export class DirectClient {
                 // Define the schema for the expected output
                 const hyperfiOutSchema = createHyperfiOutSchema(
                     nearby,
-                    availableEmotes
+                    availableEmotes,
                 );
 
                 // Call LLM
@@ -508,7 +508,7 @@ export class DirectClient {
 
                 if (!response) {
                     res.status(500).send(
-                        "No response from generateMessageResponse"
+                        "No response from generateMessageResponse",
                     );
                     return;
                 }
@@ -519,7 +519,7 @@ export class DirectClient {
                 } catch {
                     elizaLogger.error(
                         "cant serialize response",
-                        response.object
+                        response.object,
                     );
                     res.status(500).send("Error in LLM response, try again");
                     return;
@@ -560,7 +560,7 @@ export class DirectClient {
                         .createMemory(responseMessage)
                         .then(() => {
                             const messageId = stringToUuid(
-                                Date.now().toString()
+                                Date.now().toString(),
                             );
                             const memory: Memory = {
                                 id: messageId,
@@ -586,7 +586,7 @@ export class DirectClient {
                                             // but the promise doesn't make this possible
                                             //message = newMessages;
                                             return [memory];
-                                        }
+                                        },
                                     ); // 0.674s
                                 }
                                 resolve(true);
@@ -594,7 +594,7 @@ export class DirectClient {
                         });
                 });
                 res.json({ response: hfOut });
-            }
+            },
         );
 
         this.app.post(
@@ -613,7 +613,7 @@ export class DirectClient {
                     for (let i = 0; i < images.data.length; i++) {
                         const caption = await generateCaption(
                             { imageUrl: images.data[i] },
-                            agent
+                            agent,
                         );
                         imagesRes.push({
                             image: images.data[i],
@@ -622,7 +622,7 @@ export class DirectClient {
                     }
                 }
                 res.json({ images: imagesRes });
-            }
+            },
         );
 
         this.app.post(
@@ -638,7 +638,7 @@ export class DirectClient {
                                 "X-API-KEY": `${process.env.BAGEL_API_KEY}`,
                             },
                             body: JSON.stringify(req.body),
-                        }
+                        },
                     );
 
                     const data = await response.json();
@@ -649,7 +649,7 @@ export class DirectClient {
                         details: error.message,
                     });
                 }
-            }
+            },
         );
         this.app.get(
             "/fine-tune/:assetId",
@@ -658,7 +658,7 @@ export class DirectClient {
                 const downloadDir = path.join(
                     process.cwd(),
                     "downloads",
-                    assetId
+                    assetId,
                 );
 
                 elizaLogger.log("Download directory:", downloadDir);
@@ -674,12 +674,12 @@ export class DirectClient {
                             headers: {
                                 "X-API-KEY": `${process.env.BAGEL_API_KEY}`,
                             },
-                        }
+                        },
                     );
 
                     if (!fileResponse.ok) {
                         throw new Error(
-                            `API responded with status ${fileResponse.status}: ${await fileResponse.text()}`
+                            `API responded with status ${fileResponse.status}: ${await fileResponse.text()}`,
                         );
                     }
 
@@ -706,7 +706,7 @@ export class DirectClient {
                     elizaLogger.log(
                         "File written successfully. Size:",
                         stats.size,
-                        "bytes"
+                        "bytes",
                     );
 
                     res.json({
@@ -725,13 +725,13 @@ export class DirectClient {
                         stack: error.stack,
                     });
                 }
-            }
+            },
         );
 
         this.app.post("/:agentId/speak", async (req, res) => {
             const agentId = req.params.agentId;
             const roomId = stringToUuid(
-                req.body.roomId ?? "default-room-" + agentId
+                req.body.roomId ?? "default-room-" + agentId,
             );
             const userId = stringToUuid(req.body.userId ?? "user");
             const text = req.body.text;
@@ -747,7 +747,8 @@ export class DirectClient {
             if (!runtime) {
                 runtime = Array.from(this.agents.values()).find(
                     (a) =>
-                        a.character.name.toLowerCase() === agentId.toLowerCase()
+                        a.character.name.toLowerCase() ===
+                        agentId.toLowerCase(),
                 );
             }
 
@@ -763,7 +764,7 @@ export class DirectClient {
                     roomId,
                     req.body.userName,
                     req.body.name,
-                    "direct"
+                    "direct",
                 );
 
                 const messageId = stringToUuid(Date.now().toString());
@@ -819,7 +820,7 @@ export class DirectClient {
 
                 if (!response) {
                     res.status(500).send(
-                        "No response from generateMessageResponse"
+                        "No response from generateMessageResponse",
                     );
                     return;
                 }
@@ -832,7 +833,7 @@ export class DirectClient {
                     state,
                     async () => {
                         return [memory];
-                    }
+                    },
                 );
 
                 // Get the text to convert to speech
@@ -859,14 +860,14 @@ export class DirectClient {
                             "eleven_multilingual_v2",
                         voice_settings: {
                             stability: Number.parseFloat(
-                                process.env.ELEVENLABS_VOICE_STABILITY || "0.5"
+                                process.env.ELEVENLABS_VOICE_STABILITY || "0.5",
                             ),
                             similarity_boost: Number.parseFloat(
                                 process.env.ELEVENLABS_VOICE_SIMILARITY_BOOST ||
-                                    "0.9"
+                                    "0.9",
                             ),
                             style: Number.parseFloat(
-                                process.env.ELEVENLABS_VOICE_STYLE || "0.66"
+                                process.env.ELEVENLABS_VOICE_STYLE || "0.66",
                             ),
                             use_speaker_boost:
                                 process.env
@@ -878,7 +879,7 @@ export class DirectClient {
 
                 if (!speechResponse.ok) {
                     throw new Error(
-                        `ElevenLabs API error: ${speechResponse.statusText}`
+                        `ElevenLabs API error: ${speechResponse.statusText}`,
                     );
                 }
 
@@ -894,7 +895,7 @@ export class DirectClient {
             } catch (error) {
                 elizaLogger.error(
                     "Error processing message or generating speech:",
-                    error
+                    error,
                 );
                 res.status(500).json({
                     error: "Error processing message or generating speech",
@@ -933,14 +934,14 @@ export class DirectClient {
                             "eleven_multilingual_v2",
                         voice_settings: {
                             stability: Number.parseFloat(
-                                process.env.ELEVENLABS_VOICE_STABILITY || "0.5"
+                                process.env.ELEVENLABS_VOICE_STABILITY || "0.5",
                             ),
                             similarity_boost: Number.parseFloat(
                                 process.env.ELEVENLABS_VOICE_SIMILARITY_BOOST ||
-                                    "0.9"
+                                    "0.9",
                             ),
                             style: Number.parseFloat(
-                                process.env.ELEVENLABS_VOICE_STYLE || "0.66"
+                                process.env.ELEVENLABS_VOICE_STYLE || "0.66",
                             ),
                             use_speaker_boost:
                                 process.env
@@ -952,7 +953,7 @@ export class DirectClient {
 
                 if (!speechResponse.ok) {
                     throw new Error(
-                        `ElevenLabs API error: ${speechResponse.statusText}`
+                        `ElevenLabs API error: ${speechResponse.statusText}`,
                     );
                 }
 
@@ -967,7 +968,7 @@ export class DirectClient {
             } catch (error) {
                 elizaLogger.error(
                     "Error processing message or generating speech:",
-                    error
+                    error,
                 );
                 res.status(500).json({
                     error: "Error processing message or generating speech",
@@ -991,7 +992,7 @@ export class DirectClient {
     public start(port: number) {
         this.server = this.app.listen(port, () => {
             elizaLogger.success(
-                `REST API bound to 0.0.0.0:${port}. If running locally, access it at http://localhost:${port}.`
+                `REST API bound to 0.0.0.0:${port}. If running locally, access it at http://localhost:${port}.`,
             );
         });
 
@@ -1006,7 +1007,7 @@ export class DirectClient {
             // Force close after 5 seconds if server hasn't closed
             setTimeout(() => {
                 elizaLogger.error(
-                    "Could not close connections in time, forcefully shutting down"
+                    "Could not close connections in time, forcefully shutting down",
                 );
                 process.exit(1);
             }, 5000);

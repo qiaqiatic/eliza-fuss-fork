@@ -12,17 +12,19 @@ import {
     type Action,
 } from "@elizaos/core";
 import { WalletProvider } from "../providers/wallet";
-import { validateMultiversxConfig } from "../enviroment";
+import { validateMultiversxConfig } from "../environment";
 import { transferSchema } from "../utils/schemas";
 import { GraphqlProvider } from "../providers/graphql";
 import { MVX_NETWORK_CONFIG } from "../constants";
 import { NativeAuthProvider } from "../providers/nativeAuth";
 import { getToken } from "../utils/getToken";
+import { resolveHerotag } from "../utils/resolveHerotag";
 export interface TransferContent extends Content {
     tokenAddress: string;
     amount: string;
     tokenIdentifier?: string;
 }
+import { isUserAuthorized } from "../utils/accessTokenManagement";
 
 const transferTemplate = `Respond with a JSON markdown block containing only the extracted values. Use null for any values that cannot be determined.
 
@@ -54,7 +56,7 @@ export default {
         "PAY",
     ],
     validate: async (runtime: IAgentRuntime, message: Memory) => {
-        console.log("Validating config for user:", message.userId);
+        elizaLogger.log("Validating config for user:", message.userId);
         await validateMultiversxConfig(runtime);
         return true;
     },
@@ -68,16 +70,39 @@ export default {
     ) => {
         elizaLogger.log("Starting SEND_TOKEN handler...");
 
+        elizaLogger.log("Handler initialized. Checking user authorization...");
+
+        if (!isUserAuthorized(message.userId, runtime)) {
+            elizaLogger.error(
+                "Unauthorized user attempted to transfer a token:",
+                message.userId
+            );
+            if (callback) {
+                callback({
+                    text: "You do not have permission to transfer a token.",
+                    content: { error: "Unauthorized user" },
+                });
+            }
+            return false;
+        }
+
         // Initialize or update state
+        // if (!state) {
+        //     state = (await runtime.composeState(message)) as State;
+        // } else {
+        //     state = await runtime.updateRecentMessageState(state);
+        // }
+
+        let currentState: State;
         if (!state) {
-            state = (await runtime.composeState(message)) as State;
+            currentState = (await runtime.composeState(message)) as State;
         } else {
-            state = await runtime.updateRecentMessageState(state);
+            currentState = await runtime.updateRecentMessageState(state);
         }
 
         // Compose transfer context
         const transferContext = composeContext({
-            state,
+            state: currentState,
             template: transferTemplate,
         });
 
@@ -96,7 +121,7 @@ export default {
 
         // Validate transfer content
         if (!isTransferContent) {
-            console.error("Invalid content for TRANSFER_TOKEN action.");
+            elizaLogger.error("Invalid content for TRANSFER_TOKEN action.");
             if (callback) {
                 callback({
                     text: "Unable to process transfer request. Invalid content provided.",
@@ -112,6 +137,42 @@ export default {
             const networkConfig = MVX_NETWORK_CONFIG[network];
 
             const walletProvider = new WalletProvider(privateKey, network);
+
+            let receiverAddress = transferContent.tokenAddress;
+
+            if (!receiverAddress || receiverAddress.toLowerCase() === "null") {
+                elizaLogger.error(
+                    "Invalid recipient detected (null). Aborting transaction."
+                );
+                callback?.({
+                    text: "Invalid recipient. Please provide a valid address or Herotag.",
+                    content: { error: "Invalid recipient" },
+                });
+                return false;
+            }
+
+            if (!receiverAddress.startsWith("erd1")) {
+                elizaLogger.log(
+                    `Detected potential Herotag: ${receiverAddress}, resolving to an address...`
+                );
+
+                const resolvedAddress = await resolveHerotag(receiverAddress);
+
+                if (!resolvedAddress) {
+                    elizaLogger.error(
+                        `Failed to resolve Herotag: ${receiverAddress}. Aborting transaction.`
+                    );
+                    callback?.({
+                        text: `Could not resolve Herotag "${receiverAddress}". Please check the spelling.`,
+                        content: { error: "Unresolved Herotag" },
+                    });
+                    return false;
+                }
+
+                receiverAddress = resolvedAddress;
+            }
+
+            elizaLogger.log(`Final receiver address: ${receiverAddress}`);
 
             if (
                 transferContent.tokenIdentifier &&
@@ -145,7 +206,7 @@ export default {
                 }
 
                 const txHash = await walletProvider.sendESDT({
-                    receiverAddress: transferContent.tokenAddress,
+                    receiverAddress: receiverAddress,
                     amount: transferContent.amount,
                     identifier,
                 });
@@ -159,7 +220,7 @@ export default {
             }
 
             const txHash = await walletProvider.sendEGLD({
-                receiverAddress: transferContent.tokenAddress,
+                receiverAddress: receiverAddress,
                 amount: transferContent.amount,
             });
 
@@ -170,7 +231,7 @@ export default {
 
             return true;
         } catch (error) {
-            console.error("Error during token transfer:", error);
+            elizaLogger.error("Error during token transfer:", error);
             callback?.({
                 text: error.message,
                 content: { error: error.message },

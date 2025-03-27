@@ -209,6 +209,7 @@ export type Models = {
     [ModelProviderName.LLAMACLOUD]: Model;
     [ModelProviderName.TOGETHER]: Model;
     [ModelProviderName.LLAMALOCAL]: Model;
+    [ModelProviderName.LMSTUDIO]: Model;
     [ModelProviderName.GOOGLE]: Model;
     [ModelProviderName.MISTRAL]: Model;
     [ModelProviderName.CLAUDE_VERTEX]: Model;
@@ -232,6 +233,7 @@ export type Models = {
     [ModelProviderName.INFERA]: Model;
     [ModelProviderName.BEDROCK]: Model;
     [ModelProviderName.ATOMA]: Model;
+    [ModelProviderName.FUSS]: Model;
 };
 
 /**
@@ -246,6 +248,7 @@ export enum ModelProviderName {
     LLAMACLOUD = "llama_cloud",
     TOGETHER = "together",
     LLAMALOCAL = "llama_local",
+    LMSTUDIO = "lmstudio",
     GOOGLE = "google",
     MISTRAL = "mistral",
     CLAUDE_VERTEX = "claude_vertex",
@@ -270,6 +273,7 @@ export enum ModelProviderName {
     INFERA = "infera",
     BEDROCK = "bedrock",
     ATOMA = "atoma",
+    FUSS = "fuss",
 }
 
 /**
@@ -646,18 +650,21 @@ export type Plugin = {
  * Available client platforms
  */
 export enum Clients {
-    ALEXA= "alexa",
+    ALEXA = "alexa",
     DISCORD = "discord",
     DIRECT = "direct",
     TWITTER = "twitter",
     TELEGRAM = "telegram",
+    TELEGRAM_ACCOUNT = "telegram-account",
     FARCASTER = "farcaster",
     LENS = "lens",
     AUTO = "auto",
     SLACK = "slack",
     GITHUB = "github",
     INSTAGRAM = "instagram",
-    SIMSAI = "simsai"
+    SIMSAI = "simsai",
+    XMTP = "xmtp",
+    DEVA = "deva",
 }
 
 export interface IAgentConfig {
@@ -691,7 +698,7 @@ export type TelemetrySettings = {
 
 export interface ModelConfiguration {
     temperature?: number;
-    max_response_length?: number;
+    maxOutputTokens?: number;
     frequency_penalty?: number;
     presence_penalty?: number;
     maxInputTokens?: number;
@@ -770,6 +777,7 @@ export type Character = {
         jeeterInteractionTemplate?: string;
         jeeterMessageHandlerTemplate?: string;
         jeeterShouldRespondTemplate?: string;
+        devaPostTemplate?: string;
     };
 
     /** Character biography */
@@ -1642,7 +1650,6 @@ export enum ActionTimelineType {
     ForYou = "foryou",
     Following = "following",
 }
-
 export enum KnowledgeScope {
     SHARED = "shared",
     PRIVATE = "private",

@@ -331,6 +331,35 @@ export const models: Models = {
             },
         },
     },
+    [ModelProviderName.LMSTUDIO]: {
+        endpoint: settings.LMSTUDIO_SERVER_URL || "http://localhost:1234/v1",
+        model: {
+            [ModelClass.SMALL]: {
+                name: settings.SMALL_LMSTUDIO_MODEL || settings.LMSTUDIO_MODEL || "hermes-3-llama-3.1-8b",
+                stop: ["<|eot_id|>", "<|eom_id|>"],
+                maxInputTokens: 32768,
+                maxOutputTokens: 8192,
+                repetition_penalty: 0.4,
+                temperature: 0.7,
+            },
+            [ModelClass.MEDIUM]: {
+                name: settings.MEDIUM_LMSTUDIO_MODEL || settings.LMSTUDIO_MODEL || "hermes-3-llama-3.1-8b",
+                stop: ["<|eot_id|>", "<|eom_id|>"],
+                maxInputTokens: 32768,
+                maxOutputTokens: 8192,
+                repetition_penalty: 0.4,
+                temperature: 0.7,
+            },
+            [ModelClass.LARGE]: {
+                name: settings.LARGE_LMSTUDIO_MODEL || settings.LMSTUDIO_MODEL || "hermes-3-llama-3.1-8b",
+                stop: ["<|eot_id|>", "<|eom_id|>"],
+                maxInputTokens: 32768,
+                maxOutputTokens: 8192,
+                repetition_penalty: 0.4,
+                temperature: 0.7,
+            },
+        },
+    },
     [ModelProviderName.GOOGLE]: {
         endpoint: "https://generativelanguage.googleapis.com",
         model: {
@@ -866,21 +895,26 @@ export const models: Models = {
         endpoint: "https://integrate.api.nvidia.com/v1",
         model: {
             [ModelClass.SMALL]: {
-                name: settings.SMALL_NVIDIA_MODEL || "meta/llama-3.2-3b-instruct",
+                name:
+                    settings.SMALL_NVIDIA_MODEL || "meta/llama-3.2-3b-instruct",
                 stop: [],
                 maxInputTokens: 128000,
                 maxOutputTokens: 8192,
                 temperature: 0.6,
             },
             [ModelClass.MEDIUM]: {
-                name: settings.MEDIUM_NVIDIA_MODEL || "meta/llama-3.3-70b-instruct",
+                name:
+                    settings.MEDIUM_NVIDIA_MODEL ||
+                    "meta/llama-3.3-70b-instruct",
                 stop: [],
                 maxInputTokens: 128000,
                 maxOutputTokens: 8192,
                 temperature: 0.6,
             },
             [ModelClass.LARGE]: {
-                name: settings.LARGE_NVIDIA_MODEL || "meta/llama-3.1-405b-instruct",
+                name:
+                    settings.LARGE_NVIDIA_MODEL ||
+                    "meta/llama-3.1-405b-instruct",
                 stop: [],
                 maxInputTokens: 128000,
                 maxOutputTokens: 8192,
@@ -958,7 +992,7 @@ export const models: Models = {
         },
     },
     [ModelProviderName.LIVEPEER]: {
-        endpoint: settings.LIVEPEER_GATEWAY_URL,
+        endpoint: settings.LIVEPEER_GATEWAY_URL || "http://gateway.test-gateway",
         model: {
             [ModelClass.SMALL]: {
                 name:
@@ -982,6 +1016,36 @@ export const models: Models = {
                 name:
                     settings.LARGE_LIVEPEER_MODEL ||
                     "meta-llama/Meta-Llama-3.1-8B-Instruct",
+                stop: [],
+                maxInputTokens: 8000,
+                maxOutputTokens: 8192,
+                temperature: 0,
+            },
+            [ModelClass.IMAGE]: {
+                name:
+                    settings.IMAGE_LIVEPEER_MODEL || "ByteDance/SDXL-Lightning",
+            },
+        },
+    },
+    [ModelProviderName.FUSS]: {
+        endpoint: settings.FUSS_GATEWAY_URL || "http://34.209.204.175:8000",
+        model: {
+            [ModelClass.SMALL]: {
+                name: settings.SMALL_FUSS_MODEL || "fuss-small",
+                stop: [],
+                maxInputTokens: 8000,
+                maxOutputTokens: 8192,
+                temperature: 0,
+            },
+            [ModelClass.MEDIUM]: {
+                name: settings.MEDIUM_FUSS_MODEL || "fuss-medium",
+                stop: [],
+                maxInputTokens: 8000,
+                maxOutputTokens: 8192,
+                temperature: 0,
+            },
+            [ModelClass.LARGE]: {
+                name: settings.LARGE_FUSS_MODEL || "fuss-large",
                 stop: [],
                 maxInputTokens: 8000,
                 maxOutputTokens: 8192,
@@ -1126,13 +1190,13 @@ export const models: Models = {
 
 export function getModelSettings(
     provider: ModelProviderName,
-    type: ModelClass
+    type: ModelClass,
 ): ModelSettings | undefined {
     return models[provider]?.model[type] as ModelSettings | undefined;
 }
 
 export function getImageModelSettings(
-    provider: ModelProviderName
+    provider: ModelProviderName,
 ): ImageModelSettings | undefined {
     return models[provider]?.model[ModelClass.IMAGE] as
         | ImageModelSettings
@@ -1140,7 +1204,7 @@ export function getImageModelSettings(
 }
 
 export function getEmbeddingModelSettings(
-    provider: ModelProviderName
+    provider: ModelProviderName,
 ): EmbeddingModelSettings | undefined {
     return models[provider]?.model[ModelClass.EMBEDDING] as
         | EmbeddingModelSettings
