@@ -106,8 +106,8 @@ export class TwitterInteractionClient {
     async start() {
         const handleTwitterInteractionsLoop = () => {
             this.handleMessageReply();
-            this.handleTwitterInteractions();
-            this.handleTargetAccountAssistant("weiqi15c");
+            // this.handleTwitterInteractions();
+            this.handleTargetAccountAssistant();
             setTimeout(
                 handleTwitterInteractionsLoop,
                 // Defaults to 2 minutes
@@ -752,9 +752,10 @@ export class TwitterInteractionClient {
         }
     }
 
-    async handleTargetAccountAssistant(twitterUsername: string) {
+    async handleTargetAccountAssistant() {
+        const twitterUsername = this.client.profile.username;
         try {
-            // Check for mentions
+            // Check for latest 20 mentions
             const mentionCandidates = (
                 await this.client.fetchSearchTweets(
                     `@${twitterUsername}`,
@@ -762,7 +763,9 @@ export class TwitterInteractionClient {
                     SearchMode.Latest,
                 )
             ).tweets;
+
             for (const tweet of mentionCandidates) {
+                console.log("mentionCandidates tweet", tweet);
                 if (
                     !this.client.lastCheckedTweetId ||
                     BigInt(tweet.id) > this.client.lastCheckedTweetId
@@ -833,6 +836,8 @@ export class TwitterInteractionClient {
             //     runtime: this.runtime,
             //     context,
             //     modelClass: ModelClass.LARGE,
-        } catch (e) {}
+        } catch (e) {
+            console.log("response tweet error", e);
+        }
     }
 }
