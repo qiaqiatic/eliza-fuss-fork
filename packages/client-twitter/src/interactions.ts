@@ -753,6 +753,7 @@ export class TwitterInteractionClient {
     }
 
     async handleTargetAccountAssistant() {
+        console.log("handleTargetAccountAssistant execute");
         const twitterUsername = this.client.profile.username;
         try {
             // Check for latest 20 mentions
