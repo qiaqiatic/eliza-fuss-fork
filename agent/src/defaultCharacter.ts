@@ -1,10 +1,10 @@
 import { type Character, ModelProviderName } from "@elizaos/core";
 
 export const defaultCharacter: Character = {
-    name: "Eliza",
-    username: "eliza",
+    name: "Fuss",
+    username: "fuss",
     plugins: [],
-    modelProvider: ModelProviderName.LLAMALOCAL,
+    modelProvider: ModelProviderName.FUSS,
     settings: {
         secrets: {},
         voice: {
