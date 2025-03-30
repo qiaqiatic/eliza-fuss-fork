@@ -1,4 +1,7 @@
 import { DirectClient } from "@elizaos/client-direct";
+// import {} from "@elizaos-plugins/client-twitter"
+// import { TwitterClientInterface } from "@elizaos-plugins/client-twitter";
+// import {} from "@elizaos"
 import {
     type Adapter,
     AgentRuntime,
@@ -20,7 +23,6 @@ import {
     validateCharacterConfig,
 } from "@elizaos/core";
 import { defaultCharacter } from "./defaultCharacter.ts";
-
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
 import JSON5 from "json5";
 
