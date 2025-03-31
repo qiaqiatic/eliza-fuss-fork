@@ -1,7 +1,4 @@
 import { DirectClient } from "@elizaos/client-direct";
-// import {} from "@elizaos-plugins/client-twitter"
-// import { TwitterClientInterface } from "@elizaos-plugins/client-twitter";
-// import {} from "@elizaos"
 import {
     type Adapter,
     AgentRuntime,
@@ -24,6 +21,7 @@ import {
 } from "@elizaos/core";
 import { defaultCharacter } from "./defaultCharacter.ts";
 import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
+
 import JSON5 from "json5";
 
 import fs from "fs";
@@ -627,7 +625,6 @@ export async function initializeClients(
     const clients: ClientInstance[] = [];
     // const clientTypes = clients.map((c) => c.name);
     // elizaLogger.log("initializeClients", clientTypes, "for", character.name);
-
     if (character.plugins?.length > 0) {
         for (const plugin of character.plugins) {
             if (plugin.clients) {
