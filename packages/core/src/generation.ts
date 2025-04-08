@@ -1365,7 +1365,7 @@ export async function generateText({
                 const input: { message: string; role: string }[] = [
                     { role: "user", message: context },
                 ];
-                elizaLogger.info(" runtime.token", runtime.token);
+                elizaLogger.info("runtime.character", runtime.character);
                 console.log("input", input);
                 const dramaResponse = await fetch(
                     `${baseUrl}/chat_with_assistant_list_message`,

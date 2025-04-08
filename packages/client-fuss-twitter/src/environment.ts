@@ -2,6 +2,7 @@ import {
     parseBooleanFromText,
     type IAgentRuntime,
     ActionTimelineType,
+    elizaLogger,
 } from "@elizaos/core";
 import { z, ZodError } from "zod";
 
@@ -116,6 +117,7 @@ export async function validateTwitterConfig(
     runtime: IAgentRuntime
 ): Promise<TwitterConfig> {
     try {
+        elizaLogger.info("IAgentRuntime twitter", runtime);
         const twitterConfig = {
             TWITTER_DRY_RUN:
                 parseBooleanFromText(
@@ -180,7 +182,6 @@ export async function validateTwitterConfig(
                     runtime.getSetting("ENABLE_TWITTER_POST_GENERATION") ||
                         process.env.ENABLE_TWITTER_POST_GENERATION
                 ) ?? true,
-
 
             // int in minutes
             POST_INTERVAL_MIN: safeParseInt(
