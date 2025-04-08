@@ -140,6 +140,9 @@ importers:
 
   agent:
     dependencies:
+      '@elizaos-plugins/client-fuss-twitter':
+        specifier: workspace:1.0.0
+        version: link:../packages/client-fuss-twitter
       '@elizaos-plugins/client-twitter':
         specifier: workspace:0.25.6-alpha.1
         version: link:../packages/client-twitter
@@ -487,6 +490,34 @@ importers:
       tsup:
         specifier: 8.3.5
         version: 8.3.5(@swc/core@1.11.13)(jiti@1.21.7)(postcss@8.5.3)(typescript@5.6.3)(yaml@2.7.1)
+
+  packages/client-fuss-twitter:
+    dependencies:
+      '@elizaos/core':
+        specifier: workspace:^
+        version: link:../core
+      agent-twitter-client:
+        specifier: 0.0.18
+        version: 0.0.18(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      discord.js:
+        specifier: 14.16.3
+        version: 14.16.3(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      glob:
+        specifier: 11.0.0
+        version: 11.0.0
+      whatwg-url:
+        specifier: 7.1.0
+        version: 7.1.0
+    devDependencies:
+      '@vitest/coverage-v8':
+        specifier: 1.1.3
+        version: 1.1.3(vitest@1.6.1(@types/node@22.13.14)(terser@5.39.0))
+      tsup:
+        specifier: 8.3.5
+        version: 8.3.5(@swc/core@1.11.13)(jiti@1.21.7)(postcss@8.5.3)(typescript@5.6.3)(yaml@2.7.1)
+      vitest:
+        specifier: 1.6.1
+        version: 1.6.1(@types/node@22.13.14)(terser@5.39.0)
 
   packages/client-twitter:
     dependencies:

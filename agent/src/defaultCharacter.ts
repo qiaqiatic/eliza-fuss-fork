@@ -1,12 +1,14 @@
 import { type Character, ModelProviderName } from "@elizaos/core";
-import twitterPlugin from "@elizaos-plugins/client-twitter";
+import twitterPlugin from "@elizaos-plugins/client-fuss-twitter";
 export const defaultCharacter: Character = {
     name: "Fuss",
     username: "fuss",
     plugins: [twitterPlugin],
     modelProvider: ModelProviderName.FUSS,
     settings: {
-        secrets: {},
+        secrets: {
+            role: "",
+        },
         voice: {
             model: "en_US-hfc_female-medium",
         },
