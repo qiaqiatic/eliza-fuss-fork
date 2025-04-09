@@ -117,7 +117,7 @@ export async function validateTwitterConfig(
     runtime: IAgentRuntime
 ): Promise<TwitterConfig> {
     try {
-        elizaLogger.info("IAgentRuntime twitter", runtime);
+        // elizaLogger.info("IAgentRuntime twitter", runtime);
         const twitterConfig = {
             TWITTER_DRY_RUN:
                 parseBooleanFromText(
