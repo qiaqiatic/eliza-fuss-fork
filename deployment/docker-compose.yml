@@ -1,0 +1,13 @@
+version: '3.2'
+
+services:
+  mysql:
+    image: fuss-agent:latest
+    container_name: fuss-agent
+    restart: on-failure:3
+    ports:
+      - "3000:3000"
+      - "5173:5173"
+    privileged: true
+    volumes:
+      - .env:/app/.env

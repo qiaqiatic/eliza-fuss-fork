@@ -1233,7 +1233,7 @@ export const models: Models = {
         },
     },
     [ModelProviderName.FUSS]: {
-        endpoint: settings.FUSS_API_URL || "http://34.209.204.175:8000", // TODO: check
+        endpoint: settings.FUSS_API_URL || "http://34.209.204.175:8000/", // TODO: check
         model: {
             [ModelClass.SMALL]: {
                 name: "fuss-small-sonnet-20241022",

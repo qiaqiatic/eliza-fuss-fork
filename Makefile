@@ -57,3 +57,8 @@ clean:
 
 .PHONY: distclean
 distclean: clean
+
+
+.PHONY: build-alta
+build-alta:
+	docker build -t alta-ai:latest .

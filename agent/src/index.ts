@@ -607,11 +607,7 @@ export function getTokenForProvider(
                 settings.NEARAI_API_KEY
             );
         case ModelProviderName.FUSS:
-            elizaLogger.info(
-                "character.settings?.secrets",
-                character.settings?.secrets
-            );
-            return character.settings?.secrets?.role;
+            return "";
         default:
             const errorMessage = `Failed to get token - unsupported model provider: ${provider}`;
             elizaLogger.error(errorMessage);
@@ -768,7 +764,11 @@ async function startAgent(
     try {
         character.id ??= stringToUuid(character.name);
         character.username ??= character.name;
-
+        elizaLogger.info("characterInfo", {
+            id: character.id,
+            name: character.name,
+            username: character.username,
+        });
         const token = getTokenForProvider(character.modelProvider, character);
         elizaLogger.info("getTokenForProvider", token);
         const runtime: AgentRuntime = await createAgent(character, token);

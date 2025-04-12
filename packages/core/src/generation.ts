@@ -1361,24 +1361,28 @@ export async function generateText({
                 break;
             }
             case ModelProviderName.FUSS: {
-                const baseUrl = "http://34.209.204.175:8000";
                 const input: { message: string; role: string }[] = [
                     { role: "user", message: context },
                 ];
                 elizaLogger.info("runtime.character", runtime.character);
-                console.log("input", input);
-                const dramaResponse = await fetch(
-                    `${baseUrl}/chat_with_assistant_list_message`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ messages: input }),
-                    }
-                );
+                const body = {
+                    role: settings.FUSS_AGENT_TYPE,
+                    uuid: runtime.agentId,
+                    messages: input,
+                };
+                console.log("input body", body);
+                const dramaResponse = await fetch(getEndpoint(provider), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                });
                 if (!dramaResponse.ok) {
-                    throw new Error("Failed to fetch wiki-rag");
+                    throw new Error(
+                        "Failed to fetch wiki-rag" +
+                            JSON.stringify(dramaResponse)
+                    );
                 }
                 const apiResponseJson = await dramaResponse.json();
                 console.log("drama rag response", apiResponseJson);
@@ -1393,7 +1397,6 @@ export async function generateText({
                 throw new Error(errorMessage);
             }
         }
-
         return response;
     } catch (error) {
         elizaLogger.error("Error in generateText:", error);
