@@ -59,6 +59,6 @@ clean:
 distclean: clean
 
 
-.PHONY: build-alta
-build-alta:
-	docker build -t alta-ai:latest .
+.PHONY: build-fuss
+build-fuss:
+	docker build -t fuss-agent:latest .

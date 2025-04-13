@@ -693,7 +693,7 @@ export class TwitterInteractionClient {
     async handleTwitterAssistant() {
         const twitterUsername = this.client.profile.username;
         try {
-            // Check for mentions
+            // Check 20 latest tweet that mentions this agent
             const mentionCandidates = (
                 await this.client.fetchSearchTweets(
                     `@${twitterUsername}`,
@@ -701,7 +701,7 @@ export class TwitterInteractionClient {
                     SearchMode.Latest
                 )
             ).tweets;
-            elizaLogger.log(
+            elizaLogger.info(
                 "Completed checking mentioned tweets:",
                 mentionCandidates.length
             );
