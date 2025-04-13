@@ -1371,6 +1371,10 @@ export async function generateText({
                     messages: input,
                 };
                 console.log("input body", body);
+                elizaLogger.info(
+                    "getEndpoint(provider)",
+                    getEndpoint(provider)
+                );
                 const dramaResponse = await fetch(getEndpoint(provider), {
                     method: "POST",
                     headers: {
@@ -1385,7 +1389,7 @@ export async function generateText({
                     );
                 }
                 const apiResponseJson = await dramaResponse.json();
-                console.log("drama rag response", apiResponseJson);
+                elizaLogger.info("drama rag response", apiResponseJson);
                 apiResponseJson["text"] = apiResponseJson.message;
                 response = JSON.stringify(apiResponseJson);
                 elizaLogger.info("response", response);
