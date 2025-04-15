@@ -1,0 +1,29 @@
+# Create a namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sample-namespace
+
+---
+
+# Deploy a pod in the namespace
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-pod
+  namespace: sample-namespace
+  labels:
+    app: sample-app
+spec:
+  containers:
+    - name: sample-container
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+        requests:
+          memory: "64Mi"
+          cpu: "250m"

@@ -22,3 +22,37 @@ Mount `.env` to docker container, the eliza server with read `.env` and init eac
 | TWITTER_RETRY_LIMIT       | Maximum retry attempts for Twitter login                     |
 | TWITTER_SPACES_ENABLE     | Enable or disable Twitter Spaces logic                       |
 
+
+
+## EKS
+aws eks update-kubeconfig --name eliza-agent-fuss-test --region us-west-2
+
+
+```
+cat <<EOF > aws-auth-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::050752637092:role/AmazonEKSAutoNodeRole
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+  mapUsers: |
+    - arn:aws:iam::050752637092:user/yang_chen
+      username: yang_chen
+      groups:
+        - system:masters
+    - arn:aws:iam::050752637092:user/weiqi_wang
+      username: weiqi_wang
+      groups:
+        - system:masters
+EOF
+```
+
+## apply config
+kubectl apply -f aws-auth-cm.yaml 
