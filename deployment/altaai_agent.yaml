@@ -1,0 +1,60 @@
+# Create a namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chat-agents
+
+---
+
+# Deploy a pod in the namespace
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alta-ai-pod
+  namespace: chat-agents
+  labels:
+    app: alta-ai-agent
+spec:
+  containers:
+    - name: sample-container
+      image: nginx:latest
+      env:
+      - name: FUSS_API_URL
+        value: ""
+      - name: FUSS_AGENT_TYPE
+        value: ""
+      - name: FUSS_AGENT_ID
+        value: ""
+      - name: MONGODB_CONNECTION_STRING
+        value: ""
+      - name: MONGODB_DATABASE
+        value: ""
+      - name: TWITTER_DRY_RUN
+        value: ""
+      - name: TWITTER_USERNAME
+        value: ""
+      - name: TWITTER_PASSWORD
+        value: ""
+      - name: TWITTER_EMAIL
+        value: ""
+      - name: TWITTER_2FA_SECRET
+        value: ""
+      - name: TWITTER_POLL_INTERVAL
+        value: ""
+      - name: TWITTER_SEARCH_ENABLE
+        value: ""
+      - name: TWITTER_TARGET_USERS
+        value: ""
+      - name: TWITTER_RETRY_LIMIT
+        value: ""
+      - name: TWITTER_SPACES_ENABLE
+        value: ""
+      ports:
+        - containerPort: 80
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
