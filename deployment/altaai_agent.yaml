@@ -16,39 +16,39 @@ metadata:
     app: alta-ai-agent
 spec:
   containers:
-    - name: sample-container
-      image: nginx:latest
+    - name: alta-ai-container
+      image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:405960873405b49a01ef73f0bab5e44b837e528aa0aacbe9b235800109bb250d
       env:
       - name: FUSS_API_URL
-        value: ""
+        value: "http://34.209.204.175:8000/chat_with_x_bot_assitant__post"
       - name: FUSS_AGENT_TYPE
-        value: ""
+        value: "script_writer"
       - name: FUSS_AGENT_ID
-        value: ""
+        value: "ad759207-a026-08cd-fuss-89fac3000001"
       - name: MONGODB_CONNECTION_STRING
-        value: ""
+        value: "mongodb://root:password@35.88.132.54:8002/?directConnection=true"
       - name: MONGODB_DATABASE
-        value: ""
+        value: "fuss_agent"
       - name: TWITTER_DRY_RUN
-        value: ""
+        value: "false"
       - name: TWITTER_USERNAME
-        value: ""
+        value: "AltaAI_agent"
       - name: TWITTER_PASSWORD
-        value: ""
+        value: "Streamkar2025"
       - name: TWITTER_EMAIL
-        value: ""
+        value: "qia.wang.altatv@gmail.com"
       - name: TWITTER_2FA_SECRET
-        value: ""
+        value: "H6OT6NUUUNQI7JS2"
       - name: TWITTER_POLL_INTERVAL
-        value: ""
+        value: "120"
       - name: TWITTER_SEARCH_ENABLE
-        value: ""
+        value: "false"
       - name: TWITTER_TARGET_USERS
         value: ""
       - name: TWITTER_RETRY_LIMIT
-        value: ""
+        value: "3"
       - name: TWITTER_SPACES_ENABLE
-        value: ""
+        value: "false"
       ports:
         - containerPort: 80
       resources:
