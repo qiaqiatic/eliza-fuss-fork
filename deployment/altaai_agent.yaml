@@ -17,7 +17,7 @@ metadata:
 spec:
   containers:
     - name: alta-ai-container
-      image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:405960873405b49a01ef73f0bab5e44b837e528aa0aacbe9b235800109bb250d
+      image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:cd1de3f45834994e7756b698650b53c09cadbaaa2d1c07fc4e1994dac03c8209
       env:
       - name: FUSS_API_URL
         value: "http://34.209.204.175:8000/chat_with_x_bot_assitant__post"

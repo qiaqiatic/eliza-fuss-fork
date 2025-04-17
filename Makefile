@@ -60,10 +60,12 @@ distclean: clean
 
 
 .PHONY: build-fuss
-build-release:
-	docker buildx build --platform linux/amd64 -t 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss:latest .
+build-fuss:
+	docker buildx build \
+		--platform linux/amd64 \
+		-t 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss:latest .
 
 push-release:
 	docker push 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss:latest
 
-deploy-release:build-release push-release
+deploy-release:build-fuss push-release
