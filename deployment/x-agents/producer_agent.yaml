@@ -2,30 +2,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alta-ai-deployment
+  name: producer-deployment
   namespace: chat-agents
   labels:
-    app: alta-ai-agent
+    app: producer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: alta-ai-agent
+      app: producer
   template:
     metadata:
       labels:
-        app: alta-ai-agent
+        app: producer
     spec:
       containers:
-        - name: alta-ai-container
+        - name: producer-container
           image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:3f937b12ec9db76e4f70c061d5ba0e25639287b8af05f3eb3f6005949399e4a9
           env:
           - name: FUSS_API_URL
             value: "http://34.209.204.175:8000/chat_with_x_bot_assitant"
           - name: FUSS_AGENT_TYPE
-            value: "script_writer"
+            value: "producer"
           - name: FUSS_AGENT_ID
-            value: "ad759207-a026-08cd-fuss-89fac3000001"
+            value: "ad759207-a026-08cd-fuss-89xxx3000006"
           - name: MONGODB_CONNECTION_STRING
             value: "mongodb://root:mongo3021195@35.88.132.54:8002/?directConnection=true"
           - name: MONGODB_DATABASE
@@ -33,11 +33,11 @@ spec:
           - name: TWITTER_DRY_RUN
             value: "false"
           - name: TWITTER_USERNAME
-            value: "AltaAI_agent"
+            value: "ProductionFuss"
           - name: TWITTER_PASSWORD
-            value: "Streamkar2025"
+            value: "Terry123!"
           - name: TWITTER_EMAIL
-            value: "qia.wang.altatv@gmail.com"
+            value: "x7@thecommonvision.com"
           - name: TWITTER_2FA_SECRET
             value: ""
           - name: TWITTER_POLL_INTERVAL
@@ -47,7 +47,7 @@ spec:
           - name: TWITTER_TARGET_USERS
             value: ""
           - name: TWITTER_RETRY_LIMIT
-            value: "3"
+            value: "10"
           - name: TWITTER_SPACES_ENABLE
             value: "false"
           ports:
