@@ -1,0 +1,61 @@
+# Deploy a pod in the namespace
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: promotor-deployment
+  namespace: chat-agents
+  labels:
+    app: promotor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: promotor
+  template:
+    metadata:
+      labels:
+        app: promotor
+    spec:
+      containers:
+        - name: promotor-container
+          image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:3f937b12ec9db76e4f70c061d5ba0e25639287b8af05f3eb3f6005949399e4a9
+          env:
+          - name: FUSS_API_URL
+            value: "http://34.209.204.175:8000/chat_with_x_bot_assitant"
+          - name: FUSS_AGENT_TYPE
+            value: "marketing_and_promotion_specialist"
+          - name: FUSS_AGENT_ID
+            value: "ad759207-a026-08cd-fuss-89xxx3000007"
+          - name: MONGODB_CONNECTION_STRING
+            value: "mongodb://root:mongo3021195@35.88.132.54:8002/?directConnection=true"
+          - name: MONGODB_DATABASE
+            value: "fuss_agent"
+          - name: TWITTER_DRY_RUN
+            value: "false"
+          - name: TWITTER_USERNAME
+            value: "promotorfuss"
+          - name: TWITTER_PASSWORD
+            value: "Terry123!"
+          - name: TWITTER_EMAIL
+            value: "x8@thecommonvision.com"
+          - name: TWITTER_2FA_SECRET
+            value: ""
+          - name: TWITTER_POLL_INTERVAL
+            value: "120"
+          - name: TWITTER_SEARCH_ENABLE
+            value: "false"
+          - name: TWITTER_TARGET_USERS
+            value: ""
+          - name: TWITTER_RETRY_LIMIT
+            value: "3"
+          - name: TWITTER_SPACES_ENABLE
+            value: "false"
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: "2000Mi"
+              cpu: "2000m"
+            requests:
+              memory: "2000Mi"
+              cpu: "2000m"
