@@ -48,6 +48,8 @@ class TwitterManager {
         // Mentions and interactions
         this.interaction = new TwitterInteractionClient(this.client, runtime);
 
+        // fuss assistance
+        this.fuss = new fussAssistanceClient(this.client, runtime);
         // Optional Spaces logic (enabled if TWITTER_SPACES_ENABLE is true)
         if (twitterConfig.TWITTER_SPACES_ENABLE) {
             this.space = new TwitterSpaceClient(this.client, runtime);
