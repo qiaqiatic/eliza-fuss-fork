@@ -419,7 +419,8 @@ export class TwitterInteractionClient {
         //   context: shouldRespondContext,
         //   modelClass: ModelClass.MEDIUM,
         // });
-
+        // post {character:'current-agent',messge:"reply-content"}
+        // {"RESPOND" | "IGNORE"}
         // // Promise<"RESPOND" | "IGNORE" | "STOP" | null> {
         // if (shouldRespond !== "RESPOND") {
         //   elizaLogger.log("Not responding to message");
@@ -702,14 +703,15 @@ export class TwitterInteractionClient {
                 )
             ).tweets;
             elizaLogger.info(
-                "Completed checking mentioned tweets:",
-                mentionCandidates.length
+                "Completed checking mentioned tweets:" +
+                    mentionCandidates.length
             );
             for (const tweet of mentionCandidates) {
                 if (
                     !this.client.lastCheckedTweetId ||
                     BigInt(tweet.id) > this.client.lastCheckedTweetId
                 ) {
+                    // this.client.getTweet(tweet.id)
                     elizaLogger.info("tweet processing", tweet);
                     // Generate the tweetId UUID the same way it's done in handleTweet
                     const tweetId = stringToUuid(

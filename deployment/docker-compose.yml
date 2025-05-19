@@ -2,12 +2,26 @@ version: '3.2'
 
 services:
   mysql:
-    image: fuss-agent:latest
+    image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss:latest
     container_name: fuss-agent
     restart: on-failure:3
     ports:
       - "3000:3000"
       - "5173:5173"
     privileged: true
-    volumes:
-      - .env:/app/.env
+    environment:
+      - FUSS_API_URL="http://34.209.204.175:8000/chat_with_x_bot_assitant"
+      - FUSS_AGENT_TYPE="script_writer"
+      - FUSS_AGENT_ID="ad759207-a026-08cd-fuss-89fac3000001"
+      - MONGODB_CONNECTION_STRING="mongodb://root:password@35.88.132.54:8002/?directConnection=true"
+      - MONGODB_DATABASE="fuss_agent"
+      - TWITTER_DRY_RUN="false"
+      - TWITTER_USERNAME="AltaAI_agent"
+      - TWITTER_PASSWORD="Streamkar2025"
+      - TWITTER_EMAIL="qia.wang.altatv@gmail.com"
+      - TWITTER_POLL_INTERVAL="120"
+      - TWITTER_SEARCH_ENABLE="false"
+      - TWITTER_RETRY_LIMIT="3"
+      - TWITTER_SPACES_ENABLE="false"
+    # volumes:
+    #   - .env:/app/.env

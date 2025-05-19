@@ -61,4 +61,4 @@ distclean: clean
 
 .PHONY: build-fuss
 build-fuss:
-	docker build -t fuss-agent:latest .
+	docker build -t 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss:latest .
