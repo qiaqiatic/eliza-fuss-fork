@@ -752,7 +752,8 @@ async function findDatabaseAdapter(runtime: AgentRuntime) {
             "Multiple database adapters found. You must have no more than one. Adjust your plugins configuration."
         );
     }
-    const adapterInterface = adapter?.init(runtime);
+    const adapterInterface = await adapter?.init(runtime);
+    // elizaLogger.info("adapterInterface", adapterInterface.db);
     return adapterInterface;
 }
 
@@ -786,13 +787,26 @@ async function startAgent(
             db
         ); // "" should be replaced with dir for file system caching. THOUGHTS: might probably make this into an env
         runtime.cacheManager = cache;
-
         // start services/plugins/process knowledge
         await runtime.initialize();
 
         // start assigned clients
         runtime.clients = await initializeClients(character, runtime);
-
+        elizaLogger.info("agent type", runtime.getSetting("FUSS_AGENT_TYPE"));
+        // elizaLogger.info(
+        //     "test mongo connect",
+        //     await runtime.databaseAdapter.getAccountById(
+        //         "ad759207-a026-08cd-fuss-89fac3000001"
+        //     )
+        // );
+        // elizaLogger.info(
+        //     "test mongo connect",
+        //     await runtime.databaseAdapter.db
+        //         .db("fuss_agent")
+        //         .collection("tweets")
+        //         .find({ agentType: "Director" })
+        //         .toArray()
+        // );
         // add to container
         directClient.registerAgent(runtime);
 

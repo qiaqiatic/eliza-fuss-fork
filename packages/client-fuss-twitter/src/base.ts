@@ -144,13 +144,23 @@ export class ClientBase extends EventEmitter {
         // If we've reached maxDepth, don't parse nested quotes/retweets further
         const canRecurse = depth < maxDepth;
 
-        const quotedStatus = raw.quoted_status_result?.result && canRecurse
-            ? this.parseTweet(raw.quoted_status_result.result, depth + 1, maxDepth)
-            : undefined;
+        const quotedStatus =
+            raw.quoted_status_result?.result && canRecurse
+                ? this.parseTweet(
+                      raw.quoted_status_result.result,
+                      depth + 1,
+                      maxDepth
+                  )
+                : undefined;
 
-        const retweetedStatus = raw.retweeted_status_result?.result && canRecurse
-            ? this.parseTweet(raw.retweeted_status_result.result, depth + 1, maxDepth)
-            : undefined;
+        const retweetedStatus =
+            raw.retweeted_status_result?.result && canRecurse
+                ? this.parseTweet(
+                      raw.retweeted_status_result.result,
+                      depth + 1,
+                      maxDepth
+                  )
+                : undefined;
 
         const t: Tweet = {
             bookmarkCount:
@@ -180,7 +190,7 @@ export class ClientBase extends EventEmitter {
             permanentUrl:
                 raw.permanentUrl ??
                 (raw.core?.user_results?.result?.legacy?.screen_name &&
-                 raw.rest_id
+                raw.rest_id
                     ? `https://x.com/${raw.core?.user_results?.result?.legacy?.screen_name}/status/${raw.rest_id}`
                     : undefined),
             photos:
@@ -191,12 +201,15 @@ export class ClientBase extends EventEmitter {
                         id: media.id_str,
                         url: media.media_url_https,
                         alt_text: media.alt_text,
-                    })) || []),
+                    })) ||
+                    []),
             place: raw.place,
             poll: raw.poll ?? null,
             quotedStatus,
             quotedStatusId:
-                raw.quotedStatusId ?? raw.legacy?.quoted_status_id_str ?? undefined,
+                raw.quotedStatusId ??
+                raw.legacy?.quoted_status_id_str ??
+                undefined,
             quotes: raw.legacy?.quote_count ?? 0,
             replies: raw.legacy?.reply_count ?? 0,
             retweets: raw.legacy?.retweet_count ?? 0,
@@ -222,8 +235,10 @@ export class ClientBase extends EventEmitter {
                 undefined,
             videos:
                 raw.videos ??
-                (raw.legacy?.entities?.media
-                    ?.filter((media: any) => media.type === "video") ?? []),
+                raw.legacy?.entities?.media?.filter(
+                    (media: any) => media.type === "video"
+                ) ??
+                [],
             views: raw.views?.count ? Number(raw.views.count) : 0,
             sensitiveContent: raw.sensitiveContent,
         };
@@ -265,16 +280,30 @@ export class ClientBase extends EventEmitter {
         const ct0 = this.runtime.getSetting("TWITTER_COOKIES_CT0");
         const guestId = this.runtime.getSetting("TWITTER_COOKIES_GUEST_ID");
 
-        const createTwitterCookies = (authToken: string, ct0: string, guestId: string) => 
-        authToken && ct0 && guestId
-            ? [
-                { key: 'auth_token', value: authToken, domain: '.twitter.com' },
-                { key: 'ct0', value: ct0, domain: '.twitter.com' },
-                { key: 'guest_id', value: guestId, domain: '.twitter.com' },
-            ]
-            : null;
+        const createTwitterCookies = (
+            authToken: string,
+            ct0: string,
+            guestId: string
+        ) =>
+            authToken && ct0 && guestId
+                ? [
+                      {
+                          key: "auth_token",
+                          value: authToken,
+                          domain: ".twitter.com",
+                      },
+                      { key: "ct0", value: ct0, domain: ".twitter.com" },
+                      {
+                          key: "guest_id",
+                          value: guestId,
+                          domain: ".twitter.com",
+                      },
+                  ]
+                : null;
 
-        const cachedCookies = await this.getCachedCookies(username) || createTwitterCookies(authToken, ct0, guestId);
+        const cachedCookies =
+            (await this.getCachedCookies(username)) ||
+            createTwitterCookies(authToken, ct0, guestId);
 
         if (cachedCookies) {
             elizaLogger.info("Using cached cookies");
@@ -680,11 +709,11 @@ export class ClientBase extends EventEmitter {
     async setCookiesFromArray(cookiesArray: any[]) {
         const cookieStrings = cookiesArray.map(
             (cookie) =>
-                `${cookie.key}=${cookie.value}; Domain=${cookie.domain}; Path=${cookie.path}; ${
-                    cookie.secure ? "Secure" : ""
-                }; ${cookie.httpOnly ? "HttpOnly" : ""}; SameSite=${
-                    cookie.sameSite || "Lax"
-                }`
+                `${cookie.key}=${cookie.value}; Domain=${cookie.domain}; Path=${
+                    cookie.path
+                }; ${cookie.secure ? "Secure" : ""}; ${
+                    cookie.httpOnly ? "HttpOnly" : ""
+                }; SameSite=${cookie.sameSite || "Lax"}`
         );
         await this.twitterClient.setCookies(cookieStrings);
     }
@@ -786,8 +815,8 @@ export class ClientBase extends EventEmitter {
                         typeof this.runtime.character.bio === "string"
                             ? (this.runtime.character.bio as string)
                             : this.runtime.character.bio.length > 0
-                              ? this.runtime.character.bio[0]
-                              : "",
+                            ? this.runtime.character.bio[0]
+                            : "",
                     nicknames:
                         this.runtime.character.twitterProfile?.nicknames || [],
                 } satisfies TwitterProfile;

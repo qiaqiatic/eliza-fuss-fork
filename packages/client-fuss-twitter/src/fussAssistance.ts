@@ -19,7 +19,14 @@ import {
     UUID,
 } from "@elizaos/core";
 import type { ClientBase } from "./base.ts";
-import { buildConversationThread, sendTweet, wait } from "./utils.ts";
+import {
+    buildConversationThread,
+    sendTweet,
+    wait,
+    getPendingTweetsByAgentType,
+    updateTweetStatus,
+    ETweetStatus,
+} from "./utils.ts";
 export const replyWithTopicTemplate = (topic: string, comment?: string) => {
     return `
     topic: ${topic}
@@ -37,7 +44,6 @@ export class fussAssistanceClient {
     }
     async start() {
         const handleTwitterInteractionsLoop = () => {
-            elizaLogger.info("handleTwitterInteractionsLoop execute");
             elizaLogger.info(
                 "this.client.twitterConfig.TWITTER_TARGET_USERS",
                 this.client.twitterConfig.TWITTER_TARGET_USERS
@@ -346,115 +352,84 @@ export class fussAssistanceClient {
     async interaction() {
         // const twitterUsername = this.client.profile.username;
         try {
-            if (this.client.twitterConfig.TWITTER_TARGET_USERS.length) {
-                const TARGET_USERS =
-                    this.client.twitterConfig.TWITTER_TARGET_USERS;
+            const agentType = this.runtime.getSetting("FUSS_AGENT_TYPE");
+            elizaLogger.info(
+                "handleTwitterInteractionsLoop execute, agent type - ",
+                agentType
+            );
+            const tweetIds = await getPendingTweetsByAgentType(
+                this.client,
+                agentType,
+                ETweetStatus.PENDING
+            );
+            elizaLogger.info("Pending tweet list", tweetIds);
+            if (tweetIds.length > 0) {
+                for (const tweetIdInfo of tweetIds) {
+                    const tweetId = tweetIdInfo.tweetId;
+                    const tweet = await this.client.twitterClient.getTweet(
+                        tweetId
+                    );
+                    elizaLogger.info(`Tweet detail`, tweet);
+                    const roomId = stringToUuid(
+                        tweet.conversationId + "-" + this.runtime.agentId
+                    );
 
-                elizaLogger.log("Processing target users:", TARGET_USERS);
-                if (TARGET_USERS.length > 0) {
-                    for (const username of TARGET_USERS) {
-                        try {
-                            // Fetch 20 tweets metion target users
-                            const userTweets = (
-                                await this.client.twitterClient.fetchSearchTweets(
-                                    `@${username}`,
-                                    20,
-                                    SearchMode.Latest
-                                )
-                            ).tweets;
-                            for (const tweet of userTweets) {
-                                if (
-                                    !this.client.lastCheckedTweetId ||
-                                    BigInt(tweet.id) >
-                                        this.client.lastCheckedTweetId
-                                ) {
-                                    const tweetId = stringToUuid(
-                                        tweet.id + "-" + this.runtime.agentId
-                                    );
-                                    // Check if we've already processed this reply
-                                    const existingResponse =
-                                        await this.runtime.messageManager.getMemoryById(
-                                            tweetId
-                                        );
+                    const userIdUUID =
+                        tweet.userId === this.client.profile.id
+                            ? this.runtime.agentId
+                            : stringToUuid(tweet.userId!);
 
-                                    if (existingResponse) {
-                                        elizaLogger.log(
-                                            `Already responded to tweet ${tweet.id}, skipping`
-                                        );
-                                        continue;
-                                    }
+                    await this.runtime.ensureConnection(
+                        userIdUUID,
+                        roomId,
+                        tweet.username,
+                        tweet.name,
+                        "twitter"
+                    );
 
-                                    const roomId = stringToUuid(
-                                        tweet.conversationId +
-                                            "-" +
-                                            this.runtime.agentId
-                                    );
+                    const thread = await buildConversationThread(
+                        tweet,
+                        this.client
+                    );
 
-                                    const userIdUUID =
-                                        tweet.userId === this.client.profile.id
-                                            ? this.runtime.agentId
-                                            : stringToUuid(tweet.userId!);
-
-                                    await this.runtime.ensureConnection(
-                                        userIdUUID,
-                                        roomId,
-                                        tweet.username,
-                                        tweet.name,
-                                        "twitter"
-                                    );
-
-                                    const thread =
-                                        await buildConversationThread(
-                                            tweet,
-                                            this.client
-                                        );
-
-                                    let text = tweet.text;
-                                    // when tweet is a reply, attach the original tweet text
-                                    if (tweet.inReplyToStatusId != tweet.id) {
-                                        text = replyWithTopicTemplate(
-                                            tweet.inReplyToStatus?.text,
-                                            tweet.text
-                                        );
-                                    }
-                                    const message = {
-                                        content: {
-                                            text: text,
-                                            imageUrls:
-                                                tweet.photos?.map(
-                                                    (photo) => photo.url
-                                                ) || [],
-                                        },
-                                        agentId: this.runtime.agentId,
-                                        userId: userIdUUID,
-                                        roomId,
-                                    };
-
-                                    await this.handleTweet({
-                                        tweet,
-                                        message,
-                                        thread,
-                                    });
-
-                                    // Update the last checked tweet ID after processing each tweet
-                                    this.client.lastCheckedTweetId = BigInt(
-                                        tweet.id
-                                    );
-                                }
-                            }
-
-                            // Save the latest checked tweet ID to the file
-                            await this.client.cacheLatestCheckedTweetId();
-
-                            elizaLogger.log(
-                                "Finished checking Twitter assistant"
-                            );
-                        } catch (e) {
-                            elizaLogger.error(e);
-                        }
+                    let text = tweet.text;
+                    if (tweet.inReplyToStatusId != tweet.id) {
+                        text = replyWithTopicTemplate(
+                            tweet.inReplyToStatus?.text,
+                            tweet.text
+                        );
                     }
+                    const message = {
+                        content: {
+                            text: text,
+                            imageUrls:
+                                tweet.photos?.map((photo) => photo.url) || [],
+                        },
+                        agentId: this.runtime.agentId,
+                        userId: userIdUUID,
+                        roomId,
+                    };
+
+                    await this.handleTweet({
+                        tweet,
+                        message,
+                        thread,
+                    });
+                    updateTweetStatus(this.client, tweetId).then((res) => {
+                        elizaLogger.info(
+                            "update tweet reply status by id",
+                            tweetId,
+                            res
+                        );
+                    });
+                    // Update the last checked tweet ID after processing each tweet
+                    this.client.lastCheckedTweetId = BigInt(tweet.id);
                 }
             }
-        } catch (e) {}
+
+            elizaLogger.log("Finished checking Twitter assistant");
+        } catch (e) {
+            elizaLogger.error("interaction error", e);
+        }
     }
 }

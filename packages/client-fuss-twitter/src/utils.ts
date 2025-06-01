@@ -9,6 +9,11 @@ import fs from "fs";
 import path from "path";
 import { MediaData } from "./types";
 
+export enum ETweetStatus {
+    REPLIED = "replied",
+    PENDING = "pending",
+}
+
 export const wait = (minTime = 1000, maxTime = 3000) => {
     const waitTime =
         Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
@@ -37,7 +42,6 @@ export async function buildConversationThread(
 ): Promise<Tweet[]> {
     const thread: Tweet[] = [];
     const visited: Set<string> = new Set();
-
     async function processThread(currentTweet: Tweet, depth = 0) {
         elizaLogger.debug("Processing tweet:", {
             id: currentTweet.id,
@@ -217,7 +221,7 @@ export async function sendTweet(
             mediaData = await fetchMediaData(content.attachments);
         }
 
-        const cleanChunk = deduplicateMentions(chunk.trim())
+        const cleanChunk = deduplicateMentions(chunk.trim());
 
         const result = await client.requestQueue.add(async () =>
             isLongTweet
@@ -288,10 +292,41 @@ export async function sendTweet(
         },
         roomId,
         embedding: getEmbeddingZeroVector(),
-        createdAt: tweet.timestamp * 1000, 
+        createdAt: tweet.timestamp * 1000,
     }));
 
     return memories;
+}
+
+export async function getPendingTweetsByAgentType(
+    client: ClientBase,
+    agentType: string,
+    status = ETweetStatus.PENDING
+): Promise<
+    {
+        _id: string;
+        tweetId: string;
+        agentType: string;
+        createdAt: string;
+        status: string;
+    }[]
+> {
+    const dbName =
+        client.runtime.getSetting("MONGODB_DATABASE") || "elizaAgent";
+    return await client.runtime.databaseAdapter.db
+        .db(dbName)
+        .collection("tweets")
+        .find({ agentType, status })
+        .toArray();
+}
+
+export function updateTweetStatus(client: ClientBase, tweetId: string) {
+    const dbName =
+        client.runtime.getSetting("MONGODB_DATABASE") || "elizaAgent";
+    return client.runtime.databaseAdapter.db
+        .db(dbName)
+        .collection("tweets")
+        .updateOne({ tweetId }, { $set: { status: ETweetStatus.REPLIED } });
 }
 
 function splitTweetContent(content: string, maxLength: number): string[] {
@@ -408,29 +443,29 @@ function splitSentencesAndWords(text: string, maxLength: number): string[] {
 
 function deduplicateMentions(paragraph: string) {
     // Regex to match mentions at the beginning of the string
-  const mentionRegex = /^@(\w+)(?:\s+@(\w+))*(\s+|$)/;
+    const mentionRegex = /^@(\w+)(?:\s+@(\w+))*(\s+|$)/;
 
-  // Find all matches
-  const matches = paragraph.match(mentionRegex);
+    // Find all matches
+    const matches = paragraph.match(mentionRegex);
 
-  if (!matches) {
-    return paragraph; // If no matches, return the original string
-  }
+    if (!matches) {
+        return paragraph; // If no matches, return the original string
+    }
 
-  // Extract mentions from the match groups
-  let mentions = matches.slice(0, 1)[0].trim().split(' ')
+    // Extract mentions from the match groups
+    let mentions = matches.slice(0, 1)[0].trim().split(" ");
 
-  // Deduplicate mentions
-  mentions = [...new Set(mentions)];
+    // Deduplicate mentions
+    mentions = [...new Set(mentions)];
 
-  // Reconstruct the string with deduplicated mentions
-  const uniqueMentionsString = mentions.join(' ');
+    // Reconstruct the string with deduplicated mentions
+    const uniqueMentionsString = mentions.join(" ");
 
-  // Find where the mentions end in the original string
-  const endOfMentions = paragraph.indexOf(matches[0]) + matches[0].length;
+    // Find where the mentions end in the original string
+    const endOfMentions = paragraph.indexOf(matches[0]) + matches[0].length;
 
-  // Construct the result by combining unique mentions with the rest of the string
-  return uniqueMentionsString + ' ' + paragraph.slice(endOfMentions);
+    // Construct the result by combining unique mentions with the rest of the string
+    return uniqueMentionsString + " " + paragraph.slice(endOfMentions);
 }
 
 function restoreUrls(
