@@ -301,7 +301,7 @@ export async function sendTweet(
 export async function getPendingTweetsByAgentType(
     client: ClientBase,
     agentType: string,
-    status = ETweetStatus.PENDING
+    status = "pending"
 ): Promise<
     {
         _id: string;
@@ -329,7 +329,7 @@ export function updateTweetStatus(client: ClientBase, tweetId: string) {
     return client.runtime.databaseAdapter.db
         .db(dbName)
         .collection("tweets")
-        .updateOne({ tweetId }, { $set: { status: ETweetStatus.REPLIED } });
+        .updateOne({ tweetId }, { $set: { status: "replied" } });
 }
 
 function splitTweetContent(content: string, maxLength: number): string[] {
