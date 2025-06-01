@@ -799,14 +799,14 @@ async function startAgent(
         //         "ad759207-a026-08cd-fuss-89fac3000001"
         //     )
         // );
-        // elizaLogger.info(
-        //     "test mongo connect",
-        //     await runtime.databaseAdapter.db
-        //         .db("fuss_agent")
-        //         .collection("tweets")
-        //         .find({ agentType: "Director" })
-        //         .toArray()
-        // );
+        elizaLogger.info(
+            "test mongo connect",
+            await runtime.databaseAdapter.db
+                .db("fuss_agent")
+                .collection("tweets")
+                .find({ agentType: "director", status: "pending" })
+                .toArray()
+        );
         // add to container
         directClient.registerAgent(runtime);
 

@@ -362,7 +362,7 @@ export class fussAssistanceClient {
                 agentType,
                 ETweetStatus.PENDING
             );
-            elizaLogger.info("Pending tweet list", tweetIds);
+            elizaLogger.info("Pending tweet list", tweetIds.length, tweetIds);
             if (tweetIds.length > 0) {
                 for (const tweetIdInfo of tweetIds) {
                     const tweetId = tweetIdInfo.tweetId;

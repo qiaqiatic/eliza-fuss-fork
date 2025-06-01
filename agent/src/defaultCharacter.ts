@@ -1,12 +1,11 @@
 import { type Character, ModelProviderName, UUID } from "@elizaos/core";
-// import twitterPlugin from "@elizaos-plugins/client-fuss-twitter";
+import twitterPlugin from "@elizaos-plugins/client-fuss-twitter";
 import mongodbPlugin from "@elizaos-plugins/adapter-mongodb";
-// twitterPlugin,
 export const defaultCharacter: Character = {
     id: process.env.FUSS_AGENT_ID as UUID,
     name: "Fuss-" + process.env.FUSS_AGENT_TYPE,
     username: "fuss-" + process.env.FUSS_AGENT_TYPE,
-    plugins: [mongodbPlugin],
+    plugins: [twitterPlugin, mongodbPlugin],
     modelProvider: ModelProviderName.FUSS,
     settings: {
         secrets: {},
