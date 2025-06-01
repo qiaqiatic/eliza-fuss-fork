@@ -25,6 +25,7 @@ import {
     wait,
     getPendingTweetsByAgentType,
     updateTweetStatus,
+    ETweetStatus,
 } from "./utils.ts";
 export const replyWithTopicTemplate = (topic: string, comment?: string) => {
     return `
@@ -359,7 +360,7 @@ export class fussAssistanceClient {
             const tweetIds = await getPendingTweetsByAgentType(
                 this.client,
                 agentType,
-                "pending"
+                ETweetStatus.PENDING
             );
             elizaLogger.info("Pending tweet list", tweetIds.length, tweetIds);
             if (tweetIds.length > 0) {

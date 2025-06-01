@@ -301,7 +301,7 @@ export async function sendTweet(
 export async function getPendingTweetsByAgentType(
     client: ClientBase,
     agentType: string,
-    status = "pending"
+    status = ETweetStatus.PENDING
 ): Promise<
     {
         _id: string;
@@ -315,7 +315,7 @@ export async function getPendingTweetsByAgentType(
     const dbName =
         client.runtime.getSetting("MONGODB_DATABASE") || "elizaAgent";
     const tweetids = await client.runtime.databaseAdapter.db
-        .db(dbName)
+        .db("fuss_agent")
         .collection("tweets")
         .find({ agentType, status })
         .toArray();
@@ -327,9 +327,9 @@ export function updateTweetStatus(client: ClientBase, tweetId: string) {
     const dbName =
         client.runtime.getSetting("MONGODB_DATABASE") || "elizaAgent";
     return client.runtime.databaseAdapter.db
-        .db(dbName)
+        .db("fuss_agent")
         .collection("tweets")
-        .updateOne({ tweetId }, { $set: { status: "replied" } });
+        .updateOne({ tweetId }, { $set: { status: ETweetStatus.REPLIED } });
 }
 
 function splitTweetContent(content: string, maxLength: number): string[] {
