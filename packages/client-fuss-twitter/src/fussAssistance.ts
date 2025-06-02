@@ -174,39 +174,39 @@ export class fussAssistanceClient {
             };
             this.client.saveRequestMessage(message, state);
         }
-        const context = composeContext({
-            state: {
-                ...state,
-                // Convert actionNames array to string
-                actionNames: Array.isArray(state.actionNames)
-                    ? state.actionNames.join(", ")
-                    : state.actionNames || "",
-                actions: Array.isArray(state.actions)
-                    ? state.actions.join("\n")
-                    : state.actions || "",
-                // Ensure character examples are included
-                characterPostExamples: this.runtime.character.messageExamples
-                    ? this.runtime.character.messageExamples
-                          .map((example) =>
-                              example
-                                  .map(
-                                      (msg) =>
-                                          `${msg.user}: ${msg.content.text}${
-                                              msg.content.action
-                                                  ? ` [Action: ${msg.content.action}]`
-                                                  : ""
-                                          }`
-                                  )
-                                  .join("\n")
-                          )
-                          .join("\n\n")
-                    : "",
-            },
-            template:
-                this.runtime.character.templates
-                    ?.twitterMessageHandlerTemplate ||
-                this.runtime.character?.templates?.messageHandlerTemplate,
-        });
+        // const context = composeContext({
+        //     state: {
+        //         ...state,
+        //         // Convert actionNames array to string
+        //         actionNames: Array.isArray(state.actionNames)
+        //             ? state.actionNames.join(", ")
+        //             : state.actionNames || "",
+        //         actions: Array.isArray(state.actions)
+        //             ? state.actions.join("\n")
+        //             : state.actions || "",
+        //         // Ensure character examples are included
+        //         characterPostExamples: this.runtime.character.messageExamples
+        //             ? this.runtime.character.messageExamples
+        //                   .map((example) =>
+        //                       example
+        //                           .map(
+        //                               (msg) =>
+        //                                   `${msg.user}: ${msg.content.text}${
+        //                                       msg.content.action
+        //                                           ? ` [Action: ${msg.content.action}]`
+        //                                           : ""
+        //                                   }`
+        //                           )
+        //                           .join("\n")
+        //                   )
+        //                   .join("\n\n")
+        //             : "",
+        //     },
+        //     template:
+        //         this.runtime.character.templates
+        //             ?.twitterMessageHandlerTemplate ||
+        //         this.runtime.character?.templates?.messageHandlerTemplate,
+        // });
 
         const response = await generateMessageResponse({
             runtime: this.runtime,
@@ -305,12 +305,13 @@ export class fussAssistanceClient {
                         }
                     );
 
-                    const responseInfo = `Context:\n\n${context}\n\nSelected Post: ${tweet.id} - ${tweet.username}: ${tweet.text}\nAgent's Output:\n${response.text}`;
+                    // const responseInfo = `Context:\n\n${context}\n\nSelected Post: ${tweet.id} - ${tweet.username}: ${tweet.text}\nAgent's Output:\n${response.text}`;
+                    // const responseInfo = `Context:\n\n${context}\n\nSelected Post: ${tweet.id} - ${tweet.username}: ${tweet.text}\nAgent's Output:\n${response.text}`;
 
-                    await this.runtime.cacheManager.set(
-                        `twitter/tweet_generation_${tweet.id}.txt`,
-                        responseInfo
-                    );
+                    // await this.runtime.cacheManager.set(
+                    //     `twitter/tweet_generation_${tweet.id}.txt`,
+                    //     responseInfo
+                    // );
                     await wait();
                 } catch (error) {
                     elizaLogger.error(`Error sending response tweet: ${error}`);
