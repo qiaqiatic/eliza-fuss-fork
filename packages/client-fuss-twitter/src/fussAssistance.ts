@@ -85,10 +85,9 @@ export class fussAssistanceClient {
         }
 
         if (!message.content.text) {
-            elizaLogger.log("Skipping Tweet with no text", tweet.id);
+            elizaLogger.info("Skipping Tweet with no text", tweet.id);
             return { text: "", action: "IGNORE" };
         }
-
         elizaLogger.info("Processing Tweet: ", tweet.id);
         const formatTweet = (tweet: Tweet) => {
             return `  ID: ${tweet.id}
