@@ -79,13 +79,8 @@ export class fussAssistanceClient {
         message: Memory;
         thread: Tweet[];
     }) {
-        // Only skip if tweet is from self AND not from a target user
-        if (
-            tweet.userId === this.client.profile.id &&
-            !this.client.twitterConfig.TWITTER_TARGET_USERS.includes(
-                tweet.username
-            )
-        ) {
+        // Only skip if tweet is from self
+        if (tweet.userId === this.client.profile.id) {
             return;
         }
 
@@ -94,7 +89,7 @@ export class fussAssistanceClient {
             return { text: "", action: "IGNORE" };
         }
 
-        elizaLogger.log("Processing Tweet: ", tweet.id);
+        elizaLogger.info("Processing Tweet: ", tweet.id);
         const formatTweet = (tweet: Tweet) => {
             return `  ID: ${tweet.id}
    From: ${tweet.name} (@${tweet.username})
@@ -180,31 +175,6 @@ export class fussAssistanceClient {
             };
             this.client.saveRequestMessage(message, state);
         }
-        // get usernames into str
-        // const validTargetUsersStr =
-        //   this.client.twitterConfig.TWITTER_TARGET_USERS.join(",");
-
-        // const shouldRespondContext = composeContext({
-        //   state,
-        //   template:
-        //     this.runtime.character.templates?.twitterShouldRespondTemplate ||
-        //     this.runtime.character?.templates?.shouldRespondTemplate ||
-        //     twitterShouldRespondTemplate(validTargetUsersStr),
-        // });
-
-        // const shouldRespond = await generateShouldRespond({
-        //   runtime: this.runtime,
-        //   context: shouldRespondContext,
-        //   modelClass: ModelClass.MEDIUM,
-        // });
-        // post {character:'current-agent',messge:"reply-content"}
-        // {"RESPOND" | "IGNORE"}
-        // // Promise<"RESPOND" | "IGNORE" | "STOP" | null> {
-        // if (shouldRespond !== "RESPOND") {
-        //   elizaLogger.log("Not responding to message");
-        //   return { text: "Response Decision:", action: shouldRespond };
-        // }
-
         const context = composeContext({
             state: {
                 ...state,
@@ -393,7 +363,10 @@ export class fussAssistanceClient {
                     );
 
                     let text = tweet.text;
-                    if (tweet.inReplyToStatusId != tweet.id) {
+                    if (
+                        tweet.inReplyToStatusId &&
+                        tweet.inReplyToStatusId != tweet.id
+                    ) {
                         text = replyWithTopicTemplate(
                             tweet.inReplyToStatus?.text,
                             tweet.text
