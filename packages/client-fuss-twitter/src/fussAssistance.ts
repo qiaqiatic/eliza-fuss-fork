@@ -388,13 +388,20 @@ export class fussAssistanceClient {
                         message,
                         thread,
                     });
-                    updateTweetStatus(this.client, tweetId).then((res) => {
-                        elizaLogger.info(
-                            "update tweet reply status by id",
-                            tweetId,
-                            res
-                        );
-                    });
+                    updateTweetStatus(this.client, tweetId)
+                        .then((res) => {
+                            elizaLogger.info(
+                                "update tweet reply status by id",
+                                tweetId,
+                                res
+                            );
+                        })
+                        .catch((e) => {
+                            elizaLogger.error(
+                                "update tweet reply status by id",
+                                e
+                            );
+                        });
                     // Update the last checked tweet ID after processing each tweet
                     this.client.lastCheckedTweetId = BigInt(tweet.id);
                 }

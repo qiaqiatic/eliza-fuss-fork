@@ -1364,7 +1364,7 @@ export async function generateText({
                 const input: { message: string; role: string }[] = [
                     { role: "user", message: context },
                 ];
-                elizaLogger.info("runtime.character", runtime.character);
+                // elizaLogger.info("runtime.character", runtime.character);
                 const body = {
                     role: settings.FUSS_AGENT_TYPE,
                     uuid: runtime.agentId,

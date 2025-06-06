@@ -326,6 +326,7 @@ export async function getPendingTweetsByAgentType(
 export function updateTweetStatus(client: ClientBase, tweetId: string) {
     const dbName =
         client.runtime.getSetting("MONGODB_DATABASE") || "elizaAgent";
+    elizaLogger.info("update tweet status", { tweetId });
     return client.runtime.databaseAdapter.db
         .db("fuss_agent")
         .collection("tweets")
