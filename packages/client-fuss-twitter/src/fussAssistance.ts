@@ -258,7 +258,7 @@ export class fussAssistanceClient {
 
                     // if (!shouldSuppressInitialMessage) {
                     responseMessages = await callback(response);
-                    elizaLogger.info("responseMessages", responseMessages);
+                    // elizaLogger.info("responseMessages", responseMessages);
                     // } else {
                     //     responseMessages = [
                     //         {
