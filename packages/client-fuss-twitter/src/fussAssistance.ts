@@ -88,7 +88,7 @@ export class fussAssistanceClient {
             elizaLogger.info("Skipping Tweet with no text", tweet.id);
             return { text: "", action: "IGNORE" };
         }
-        elizaLogger.info("Processing Tweet: ", tweet.id);
+        // elizaLogger.info("Processing Tweet: ", tweet.id);
         const formatTweet = (tweet: Tweet) => {
             return `  ID: ${tweet.id}
    From: ${tweet.name} (@${tweet.username})
@@ -248,62 +248,63 @@ export class fussAssistanceClient {
                         return memories;
                     };
 
-                    const action = this.runtime.actions.find(
-                        (a) => a.name === response.action
-                    );
-                    const shouldSuppressInitialMessage =
-                        action?.suppressInitialMessage;
+                    // const action = this.runtime.actions.find(
+                    //     (a) => a.name === response.action
+                    // );
+                    // const shouldSuppressInitialMessage =
+                    //     action?.suppressInitialMessage;
 
                     let responseMessages = [];
 
-                    if (!shouldSuppressInitialMessage) {
-                        responseMessages = await callback(response);
-                    } else {
-                        responseMessages = [
-                            {
-                                id: stringToUuid(
-                                    tweet.id + "-" + this.runtime.agentId
-                                ),
-                                userId: this.runtime.agentId,
-                                agentId: this.runtime.agentId,
-                                content: response,
-                                roomId: message.roomId,
-                                embedding: getEmbeddingZeroVector(),
-                                createdAt: Date.now(),
-                            },
-                        ];
-                    }
+                    // if (!shouldSuppressInitialMessage) {
+                    responseMessages = await callback(response);
+                    elizaLogger.info("responseMessages", responseMessages);
+                    // } else {
+                    //     responseMessages = [
+                    //         {
+                    //             id: stringToUuid(
+                    //                 tweet.id + "-" + this.runtime.agentId
+                    //             ),
+                    //             userId: this.runtime.agentId,
+                    //             agentId: this.runtime.agentId,
+                    //             content: response,
+                    //             roomId: message.roomId,
+                    //             embedding: getEmbeddingZeroVector(),
+                    //             createdAt: Date.now(),
+                    //         },
+                    //     ];
+                    // }
 
-                    state = (await this.runtime.updateRecentMessageState(
-                        state
-                    )) as State;
+                    // state = (await this.runtime.updateRecentMessageState(
+                    //     state
+                    // )) as State;
 
-                    for (const responseMessage of responseMessages) {
-                        if (
-                            responseMessage ===
-                            responseMessages[responseMessages.length - 1]
-                        ) {
-                            responseMessage.content.action = response.action;
-                        } else {
-                            responseMessage.content.action = "CONTINUE";
-                        }
-                        await this.runtime.messageManager.createMemory(
-                            responseMessage
-                        );
-                    }
+                    // for (const responseMessage of responseMessages) {
+                    //     if (
+                    //         responseMessage ===
+                    //         responseMessages[responseMessages.length - 1]
+                    //     ) {
+                    //         responseMessage.content.action = response.action;
+                    //     } else {
+                    //         responseMessage.content.action = "CONTINUE";
+                    //     }
+                    //     await this.runtime.messageManager.createMemory(
+                    //         responseMessage
+                    //     );
+                    // }
 
-                    const responseTweetId =
-                        responseMessages[responseMessages.length - 1]?.content
-                            ?.tweetId;
+                    // const responseTweetId =
+                    //     responseMessages[responseMessages.length - 1]?.content
+                    //         ?.tweetId;
 
-                    await this.runtime.processActions(
-                        message,
-                        responseMessages,
-                        state,
-                        (response: Content) => {
-                            return callback(response, responseTweetId);
-                        }
-                    );
+                    // await this.runtime.processActions(
+                    //     message,
+                    //     responseMessages,
+                    //     state,
+                    //     (response: Content) => {
+                    //         return callback(response, responseTweetId);
+                    //     }
+                    // );
 
                     // const responseInfo = `Context:\n\n${context}\n\nSelected Post: ${tweet.id} - ${tweet.username}: ${tweet.text}\nAgent's Output:\n${response.text}`;
                     // const responseInfo = `Context:\n\n${context}\n\nSelected Post: ${tweet.id} - ${tweet.username}: ${tweet.text}\nAgent's Output:\n${response.text}`;
