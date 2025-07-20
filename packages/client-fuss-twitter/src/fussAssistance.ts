@@ -210,7 +210,7 @@ export class fussAssistanceClient {
 
         const response = await generateMessageResponse({
             runtime: this.runtime,
-            context: tweet.text,
+            context: message.content.text,
             modelClass: ModelClass.LARGE,
         });
 
