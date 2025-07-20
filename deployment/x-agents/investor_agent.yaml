@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: investor-container
-          image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:3f937b12ec9db76e4f70c061d5ba0e25639287b8af05f3eb3f6005949399e4a9
+          image: 050752637092.dkr.ecr.us-west-2.amazonaws.com/altaai/eliza-fuss@sha256:a97d404f26b223dc2ccf0505f9952142836eda4f8e122f9c5bfab51c78d77426
           env:
           - name: FUSS_API_URL
             value: "http://34.209.204.175:8000/chat_with_x_bot_assitant"
@@ -35,7 +35,7 @@ spec:
           - name: TWITTER_USERNAME
             value: "InvestorFuss"
           - name: TWITTER_PASSWORD
-            value: "Terry123!"
+            value: "Terry456!"
           - name: TWITTER_EMAIL
             value: "x6@thecommonvision.com"
           - name: TWITTER_2FA_SECRET
@@ -47,7 +47,7 @@ spec:
           - name: TWITTER_TARGET_USERS
             value: ""
           - name: TWITTER_RETRY_LIMIT
-            value: "10"
+            value: "50"
           - name: TWITTER_SPACES_ENABLE
             value: "false"
           ports:

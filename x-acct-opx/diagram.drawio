@@ -1,0 +1,202 @@
+<mxfile host="65bd71144e">
+    <diagram id="x_platform_process_flow" name="X Platform Business Process Flowchart">
+        <mxGraphModel dx="840" dy="602" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="700" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry width="1000" height="720" as="geometry"/>
+                </mxCell>
+                <mxCell id="title" value="X Platform Business Process Flowchart" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="250" y="20" width="500" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="main_agent" value="Main Agent&#xa;(Human Agent)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#4285f4;strokeColor=none;fontColor=#FFFFFF;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="430" y="80" width="140" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="x_platform" value="X Platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34a853;strokeColor=none;fontColor=#FFFFFF;fontSize=18;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="350" y="250" width="300" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="user" value="User" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#fbbc05;strokeColor=none;fontSize=16;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="150" y="240" width="100" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="user_to_platform" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="user" target="x_platform" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="370" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="user_to_platform_label" value="Posts/&#xa;@Main Agent" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="260" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="platform_to_agent" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="x_platform" target="main_agent" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="370" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="platform_to_agent_label" value="Notification" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="510" y="215" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="agent_to_platform" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;" parent="1" source="main_agent" target="x_platform" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="370" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="agent_to_platform_label" value="Reply/Assign" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="410" y="215" width="80" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="ai_agents_label" value="9 Specialized AI Agents" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="150" y="400" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="platform_to_distribution" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=2;" parent="1" source="x_platform" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="370" as="sourcePoint"/>
+                        <mxPoint x="500" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="platform_to_distribution_label" value="Assign questions to&#xa;specialized AI Agents" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="350" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="investor" value="Investor&#xa;(Victoria&#xa;&quot;Tori&quot; Morgan)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="280" y="430" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="casting_assistant" value="Casting&#xa;Assistant&#xa;(Michael &quot;Mike&quot;&#xa;Thompson)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="380" y="480" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="actor" value="Actor&#xa;(Christopher&#xa;&quot;Chris&quot; Hayes)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="460" y="500" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="actress" value="Actress&#xa;(Emma&#xa;Reynolds)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="540" y="480" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="director" value="Director&#xa;(David&#xa;Anderson)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="640" y="430" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="script_writer" value="Script&#xa;Writer&#xa;(Jennifer &quot;Jen&quot;&#xa;Campbell)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="210" y="500" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="producer" value="Producer&#xa;(Natalie&#xa;Wilson)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="710" y="500" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="tech_support" value="Technical&#xa;Support&#xa;(Kevin Walsh)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="160" y="430" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="marketing" value="Marketing&#xa;Specialist&#xa;(Allison &quot;Allie&quot;&#xa;Spencer)" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#ea4335;strokeColor=none;fontColor=#FFFFFF;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="760" y="430" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="dist_to_investor" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="investor" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_casting" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="casting_assistant" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_actor" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="actor" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_actress" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="actress" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_director" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="director" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_writer" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="script_writer" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_producer" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="producer" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_tech" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="tech_support" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="dist_to_marketing" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="marketing" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="500" y="400" as="sourcePoint"/>
+                        <mxPoint x="520" y="320" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="agents_to_platform" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.167;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="agents_to_platform_label" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="380" y="380" as="sourcePoint"/>
+                        <mxPoint x="400" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="agents_to_platform_label" value="Professional responses" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="340" y="360" width="140" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_human" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4285f4;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="70" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_human_label" value="Human Agent" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="780" y="65" width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_platform" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#34a853;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="100" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_platform_label" value="Platform/System" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="780" y="95" width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_user" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fbbc05;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="130" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_user_label" value="User" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="780" y="125" width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_ai" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ea4335;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="750" y="160" width="20" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_ai_label" value="AI Agents" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="780" y="155" width="130" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="process_title" value="Process Description:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="50" y="610" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="process_step1" value="1. User reply on X Platform in @&lt;span style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; white-space: pre;&quot;&gt;FussTVapp &lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; white-space: pre;&quot;&gt;thread&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="635" width="400" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="process_step2" value="2. Ops team decide which agent can reply the post. Get the twit id and post it into&amp;nbsp;http://3.80.116.90:5006/" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="655" width="880" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="process_step3" value="3. AI Agents will pick the pending task and reponse the thread" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="675" width="400" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="process_step4" value="4. Ops team supervises the entire interaction, ensuring proper task assignment and resolution" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="695" width="630" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="" style="endArrow=none;html=1;dashed=1;dashPattern=8 8;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="920" y="400" as="sourcePoint"/>
+                        <mxPoint x="80" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="3" value="AI Agents" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="880" y="420" width="80" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
