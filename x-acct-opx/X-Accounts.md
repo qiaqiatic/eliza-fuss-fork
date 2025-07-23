@@ -11,7 +11,7 @@
 | @FussTVapp (Terry123!) | Main Channel | Human (X Support Team) | Major channel to handle all communications | business@thecommonvision.com |
 | @CastingFuss (YangChen@Sea) | Casting | AI (casting_assistant: Michael "Mike" Thompson) | Casting announcements and talent management | x2@thecommonvision.com |
 | @ActorFuss (Terry456!) | Actor | AI (Actor: Christopher "Chris" Hayes) | An Actor | x3@thecommonvision.com |
-| @Director_Fuss (Terry123!) | Director | AI (director: David Anderson) | Director engagement and project updates | x4@thecommonvision.com |
+| @Director_Fuss (Terry456!) | Director | AI (director: David Anderson) | Director engagement and project updates | x4@thecommonvision.com |
 | @ScriptFuss (Terry456!) | Script Development | AI (script_writer: Jennifer "Jen" Campbell) | Script-related content and resources | x5@thecommonvision.com |
 | @InvestorFuss (Terry456!) | Investment | AI (investor: Victoria "Tori" Morgan) | Investment opportunities and updates | x6@thecommonvision.com |
 | @ProductionFuss (Terry456!) | Production | AI (producer: Natalie Wilson) | Production updates and industry news | x7@thecommonvision.com |
