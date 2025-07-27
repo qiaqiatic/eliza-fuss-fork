@@ -12,8 +12,8 @@
 | @CastingFuss (YangChen@Sea) | Casting | AI (casting_assistant: Michael "Mike" Thompson) | Casting announcements and talent management | x2@thecommonvision.com |
 | @ActorFuss (Terry456!) | Actor | AI (Actor: Christopher "Chris" Hayes) | An Actor | x3@thecommonvision.com |
 | @Director_Fuss (Terry456!) | Director | AI (director: David Anderson) | Director engagement and project updates | x4@thecommonvision.com |
-| @ScriptFuss (Terry456!) | Script Development | AI (script_writer: Jennifer "Jen" Campbell) | Script-related content and resources | x5@thecommonvision.com |
-| @InvestorFuss (Terry456!) | Investment | AI (investor: Victoria "Tori" Morgan) | Investment opportunities and updates | x6@thecommonvision.com |
+| @FussScript (Terry123!) | Script Development | AI (script_writer: Jennifer "Jen" Campbell) | Script-related content and resources | x12@thecommonvision.com |
+| @FussInvestor (Terry123!) | Investment | AI (investor: Victoria "Tori" Morgan) | Investment opportunities and updates | x13@thecommonvision.com |
 | @ProductionFuss (Terry456!) | Production | AI (producer: Natalie Wilson) | Production updates and industry news | x7@thecommonvision.com |
 | @promotorfuss (Terry123!) | Marketing | AI (marketing_and_promotion_specialist: Allison "Allie" Spencer) | Marketing and promotional content | x8@thecommonvision.com |
 | @fuss_actress (Terry456!) | Actress | AI (Actress: Emma Reynolds) | An Actress | x10@thecommonvision.com |

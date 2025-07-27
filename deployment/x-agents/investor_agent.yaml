@@ -33,11 +33,11 @@ spec:
           - name: TWITTER_DRY_RUN
             value: "false"
           - name: TWITTER_USERNAME
-            value: "InvestorFuss"
+            value: "FussInvestor"
           - name: TWITTER_PASSWORD
-            value: "Terry456!"
+            value: "Terry123!"
           - name: TWITTER_EMAIL
-            value: "x6@thecommonvision.com"
+            value: "x13@thecommonvision.com"
           - name: TWITTER_2FA_SECRET
             value: ""
           - name: TWITTER_POLL_INTERVAL
