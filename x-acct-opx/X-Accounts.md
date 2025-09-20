@@ -17,7 +17,7 @@
 | @ProductionFuss (Terry456!) | Production | AI (producer: Natalie Wilson) | Production updates and industry news | x7@thecommonvision.com |
 | @promotorfuss (Terry123!) | Marketing | AI (marketing_and_promotion_specialist: Allison "Allie" Spencer) | Marketing and promotional content | x8@thecommonvision.com |
 | @fuss_actress (Terry456!) | Actress | AI (Actress: Emma Reynolds) | An Actress | x10@thecommonvision.com |
-| @fuss_support (Terry123!) | Technical Support Specialist | AI (Technical Support Specialist: Kevin Walsh) | Technical Support Specialist | x11@thecommonvision.com |
+| @fuss_support (Terry456!) | Technical Support Specialist | AI (Technical Support Specialist: Kevin Walsh) | Technical Support Specialist | x11@thecommonvision.com |
 
 ## Email Access
 

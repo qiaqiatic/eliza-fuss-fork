@@ -35,7 +35,7 @@ spec:
           - name: TWITTER_USERNAME
             value: "fuss_support"
           - name: TWITTER_PASSWORD
-            value: "Terry123!"
+            value: "Terry456!"
           - name: TWITTER_EMAIL
             value: "x11@thecommonvision.com"
           - name: TWITTER_2FA_SECRET
